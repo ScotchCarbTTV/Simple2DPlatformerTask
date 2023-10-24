@@ -13,9 +13,9 @@ public class PlayerMovement : MonoBehaviour
 
     private float dirX = 0f;
     
-    [SerializeField] private float moveSpeed = 0f; //should be 7 for full function
-    [SerializeField] private float jumpForce = 0f; //should be 16 for full function
-
+    [SerializeField] private float moveSpeed = 0f; //should be 10 for full function
+    [SerializeField] private float jumpForce = 0f; //should be 48 for full function
+    [SerializeField] private float jumpForceActual;
     private enum MovementState { idle, running, jumping, falling }
 
     [SerializeField] private AudioSource jumpSoundEffect;
@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        jumpForceActual = jumpForce / 2;
     }
 
     // Update is called once per frame
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             jumpSoundEffect.Play();
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForceActual);
         }
 
         UpdateAnimationState();

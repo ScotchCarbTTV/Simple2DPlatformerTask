@@ -15,6 +15,8 @@ public class ItemCollector : MonoBehaviour
 
     [SerializeField] private AudioSource collectionSoundEffect;
 
+    [SerializeField] GameObject bonusItemText;
+
     private void Awake()
     {
         if(Instance == null)
@@ -28,6 +30,11 @@ public class ItemCollector : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        bonusItemText.SetActive(false);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Cherry"))
@@ -36,6 +43,13 @@ public class ItemCollector : MonoBehaviour
             Destroy(collision.gameObject);
             cherries += cherryPoints;
             cherriesText.text = $"Points: {cherries}\nCollect 1000 points to finish!" ;
+        }
+        else if (collision.gameObject.CompareTag("BonusItem"))
+        {
+            collectionSoundEffect.Play();
+            bonusItemText.SetActive(true);
+
+            Destroy(collision.gameObject);
         }
     }
 }
